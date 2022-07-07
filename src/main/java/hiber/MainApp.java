@@ -45,10 +45,10 @@ public class MainApp {
         user13.setCar(car13);
         user14.setCar(car14);
 
-        userService.add(user11);
-        userService.add(user12);
-        userService.add(user13);
-        userService.add(user14);
+        userService.addUser(user11);
+        userService.addUser(user12);
+        userService.addUser(user13);
+        userService.addUser(user14);
 
         List<User> users = userService.listUsers();
         for (User user : users) {
@@ -62,7 +62,7 @@ public class MainApp {
 
         List<User> carOwner = userService.getUser("Audi", 100);
 
-        for(User user : carOwner){
+        for (User user : carOwner) {
             System.out.println(user.getFirstName() + " "
                     + user.getLastName() + " is the owner of the " + user.getCar());
         }

@@ -11,29 +11,34 @@ import java.util.List;
 @Repository
 public class UserDaoImp implements UserDao {
 
-   @Autowired
-   private SessionFactory sessionFactory;
 
-   @Override
-   public void add(User user) {
-      sessionFactory.getCurrentSession().save(user);
-   }
+    private final SessionFactory sessionFactory;
 
-   @Override
-   @SuppressWarnings("unchecked")
-   public List<User> listUsers() {
-      TypedQuery<User> query=sessionFactory.getCurrentSession()
-              .createQuery("from User");
-      return query.getResultList();
-   }
+    @Autowired
+    public UserDaoImp(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
-   @Override
-   public List<User> getUser(String model, int series) {
-      TypedQuery<User> query = sessionFactory.getCurrentSession()
-              .createQuery("from User where car " +
-                      "in(from Car where model = :model and series = :series)")
-              .setParameter("model", model)
-              .setParameter("series", series);
-      return query.getResultList();
-   }
+    @Override
+    public void addUser(User user) {
+        sessionFactory.getCurrentSession().save(user);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<User> listUsers() {
+        TypedQuery<User> query = sessionFactory.getCurrentSession()
+                .createQuery("from User");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<User> getUser(String model, int series) {
+        TypedQuery<User> query = sessionFactory.getCurrentSession()
+                .createQuery("from User where car " +
+                        "in(from Car where model = :model and series = :series)")
+                .setParameter("model", model)
+                .setParameter("series", series);
+        return query.getResultList();
+    }
 }
